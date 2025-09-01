@@ -15,11 +15,11 @@ contract EnglishAuction {
     event Withdraw(address indexed bidder, uint amount);
     event End(address highestBidder, uint highestBid);
 
-    // NFT 相关信息
+    // NFT Property
     IERC721 public immutable nft;
     uint public immutable nftId;
 
-    // 拍卖信息
+    // Auction Property
     address payable  public immutable seller;
     uint32 public endAt;
     bool public started;
@@ -29,7 +29,7 @@ contract EnglishAuction {
     uint public highestBid;
     mapping(address => uint) public bids;
 
-    // 初始化
+    // Initialization
     constructor(
         address _nft,
         uint _nftId,
@@ -41,7 +41,7 @@ contract EnglishAuction {
         highestBid = _startingBid;
     }
 
-    // 卖家发起拍卖
+    // Seller raises Auction
     function start() external {
         require(msg.sender == seller, "not seller");
         require(!started, "started");
@@ -53,7 +53,7 @@ contract EnglishAuction {
         emit Start();
     }
 
-    // 买家竞价
+    // Buyers bid
     function bid() external payable {
         require(started, "not started");
         require(block.timestamp < endAt, "ended");
@@ -69,7 +69,7 @@ contract EnglishAuction {
         emit Bid(msg.sender, msg.value);
     }
 
-    // 买家提款
+    // Buyer withdraw money
     function withdraw() external {
         uint bal = bids[msg.sender];
         bids[msg.sender] = 0;
@@ -77,7 +77,7 @@ contract EnglishAuction {
         emit Withdraw(msg.sender, bal);
     }
 
-    // 结束拍卖
+    // End Auction
     function end() external {
         require(started, "not started");
         require(!ended, "ended");
