@@ -10,11 +10,11 @@ interface IERC721 {
 }
 
 contract DutchAuction {
-    // NFT 相关信息
+    // NFT Property
     IERC721 public immutable nft;
     uint public immutable nftId;
 
-    // 拍卖信息
+    // Auction Property
     uint private constant DURATION = 7 days;
     address public immutable seller;
     uint public immutable startingPrice;
@@ -22,7 +22,7 @@ contract DutchAuction {
     uint public immutable expiresAt;
     uint public immutable discountRate;
 
-   // 卖家出售 NFT
+   // Seller sell NFT
    constructor(
         uint _startingPrice,
         uint _discountRate,
@@ -42,7 +42,7 @@ contract DutchAuction {
         nftId = _nftId;
    }
 
-   // 买家购买 NFT
+   // Buyer buy NFT
     function buy() external payable {
         require(block.timestamp < expiresAt, "aution expired");
 
@@ -56,7 +56,7 @@ contract DutchAuction {
         }
     }
 
-    // 查看当前价格
+    // Check Price
     function getPrice() public view returns(uint) {
         uint timeElapsed = block.timestamp - startAt;
         uint discount = discountRate * timeElapsed;
