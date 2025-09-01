@@ -22,7 +22,7 @@ contract DutchAuction {
     uint public immutable expiresAt;
     uint public immutable discountRate;
 
-   // Seller sell NFT
+   // Initialization
    constructor(
         uint _startingPrice,
         uint _discountRate,
